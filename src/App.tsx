@@ -6,10 +6,15 @@ import BalloonPop from './components/BalloonPop';
 import PhonicsBoard from './components/PhonicsBoard';
 import ArithmeticMath from './components/ArithmeticMath';
 import SpellingFlashcards from './components/SpellingFlashcards';
+import ActivityWrapper from './components/ActivityWrapper';
+import ColorShapeSorter from './components/ColorShapeSorter';
+import AnimalDiscovery from './components/AnimalDiscovery';
+import OrderingComparison from './components/OrderingComparison';
+import LogicSequences from './components/LogicSequences';
 import { playPop, playChime, speak } from './utils/audio';
-import { Sparkles, Gamepad2, Award, Heart, Shield, Undo2, Star, BookOpen, Smile, Palette, Wand2 } from 'lucide-react';
+import { Sparkles, Gamepad2, Award, Heart, Shield, Undo2, Star, BookOpen, Smile, Palette, Wand2, Boxes, Dog, ListOrdered, TrainFront } from 'lucide-react';
 
-type Tab = 'lobby' | 'tracing' | 'patterns' | 'counting' | 'phonics' | 'math' | 'spelling';
+type Tab = 'lobby' | 'tracing' | 'patterns' | 'counting' | 'phonics' | 'math' | 'spelling' | 'sorting' | 'discovery' | 'ordering' | 'logic';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('lobby');
@@ -45,6 +50,18 @@ export default function App() {
         break;
       case 'spelling':
         speak("Spelling flashcards! Let's spell bubble words together!");
+        break;
+      case 'sorting':
+        speak("Welcome to the Sorting Room! Match colors and shapes!");
+        break;
+      case 'discovery':
+        speak("Animal Kingdom! Can you find all the animal friends?");
+        break;
+      case 'ordering':
+        speak("Let's put things in order! From smallest to biggest!");
+        break;
+      case 'logic':
+        speak("Logic Train! Help the train solve the cargo patterns!");
         break;
       case 'lobby':
         speak("Back to the playroom lobby!");
@@ -263,6 +280,90 @@ export default function App() {
                   </div>
                 </motion.button>
 
+                {/* Play Card 7: Color & Shape Sorter */}
+                <motion.button
+                  id="lobby_card_sorting"
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('sorting')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-kid-yellow-dark flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-kid-yellow flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    <Boxes size={32} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
+                      Color & Shape Sorter
+                    </h3>
+                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
+                      Adaptive sorting sandbox! Drag objects into matching buckets. Difficulty grows as you get faster!
+                    </p>
+                  </div>
+                </motion.button>
+
+                {/* Play Card 8: Animal Discovery */}
+                <motion.button
+                  id="lobby_card_discovery"
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('discovery')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-sky-400 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-sky-100 flex flex-shrink-0 items-center justify-center text-sky-500 text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    <Dog size={32} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
+                      Animal Kingdom Discovery
+                    </h3>
+                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
+                      Identify animal friends by their sounds and names. Unlock more animals as you level up!
+                    </p>
+                  </div>
+                </motion.button>
+
+                {/* Play Card 9: Ordering & Comparison */}
+                <motion.button
+                  id="lobby_card_ordering"
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('ordering')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-amber-400 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-amber-100 flex flex-shrink-0 items-center justify-center text-amber-500 text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    <ListOrdered size={32} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
+                      Ordering & Comparison
+                    </h3>
+                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
+                      Smallest to biggest! Put cute toys in order on the magic shelf to build size recognition.
+                    </p>
+                  </div>
+                </motion.button>
+
+                {/* Play Card 10: Logic Sequences */}
+                <motion.button
+                  id="lobby_card_logic"
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('logic')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-stone-400 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-stone-100 flex flex-shrink-0 items-center justify-center text-stone-500 text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    <TrainFront size={32} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
+                      Logic Sequence Train
+                    </h3>
+                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
+                      Help the logic train! Complete cargo patterns to move the train forward. Early coding thinking!
+                    </p>
+                  </div>
+                </motion.button>
+
               </div>
             </motion.div>
           )}
@@ -343,6 +444,66 @@ export default function App() {
               className="w-full"
             >
               <SpellingFlashcards />
+            </motion.div>
+          )}
+
+          {activeTab === 'sorting' && (
+            <motion.div
+              key="sorting"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <ActivityWrapper title="Color & Shape Sorter" description="Adaptive sorting sandbox!">
+                {(props) => <ColorShapeSorter {...props} />}
+              </ActivityWrapper>
+            </motion.div>
+          )}
+
+          {activeTab === 'discovery' && (
+            <motion.div
+              key="discovery"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <ActivityWrapper title="Animal Kingdom Discovery" description="Identify animal friends!">
+                {(props) => <AnimalDiscovery {...props} />}
+              </ActivityWrapper>
+            </motion.div>
+          )}
+
+          {activeTab === 'ordering' && (
+            <motion.div
+              key="ordering"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <ActivityWrapper title="Ordering & Comparison" description="Smallest to biggest!">
+                {(props) => <OrderingComparison {...props} />}
+              </ActivityWrapper>
+            </motion.div>
+          )}
+
+          {activeTab === 'logic' && (
+            <motion.div
+              key="logic"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <ActivityWrapper title="Logic Sequence Train" description="Complete cargo patterns!">
+                {(props) => <LogicSequences {...props} />}
+              </ActivityWrapper>
             </motion.div>
           )}
         </AnimatePresence>
