@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Quicksand', system-ui, -apple-system, sans-serif;
+  --color-kid-cream: #FFFDF0;
+  --color-kid-dark: #5A5A40;
+  --color-kid-sub: #8C8C70;
+  --color-kid-red: #FFADAD;
+  --color-kid-red-dark: #EE8E8E;
+  --color-kid-peach: #FFD6A5;
+  --color-kid-peach-dark: #E9C08B;
+  --color-kid-yellow: #FFD966;
+  --color-kid-green-mint: #C1E1C1;
+  --color-kid-green-light: #CAFFBF;
+  --color-kid-green-bg: #E2F0D9;
+  --color-kid-green-dark: #5A8040;
+  --color-kid-blue: #A0C4FF;
+  --color-kid-purple: #BDB2FF;
+  --color-kid-blue-text: #4D96FF;
+}
+
+body {
+  font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-kid-cream);
+  color: var(--color-kid-dark);
+}
+
+/* Custom scrollbars for item sliders */
+::-webkit-scrollbar {
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-kid-peach);
+  border-radius: 9999px;
+}
+

@@ -1,0 +1,6 @@
+{
+  "name": "KinderTrace Playroom",
+  "description": "An interactive, kid-friendly play area for 4-year-olds to trace letters, count objects, pop balloons, and match patterns with cute sounds and custom star rewards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
