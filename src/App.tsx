@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import TracingBoard from './components/TracingBoard';
 import PatternMatch from './components/PatternMatch';
 import BalloonPop from './components/BalloonPop';
-import PhonicsBoard from './components/PhonicsBoard';
 import ArithmeticMath from './components/ArithmeticMath';
 import SpellingFlashcards from './components/SpellingFlashcards';
 import ActivityWrapper from './components/ActivityWrapper';
@@ -41,9 +40,6 @@ export default function App() {
         break;
       case 'counting':
         speak("Welcome to the balloon counting room! Pop them all!");
-        break;
-      case 'phonics':
-        speak("Phonics flashcards! Click any letter to hear its bubble sound!");
         break;
       case 'math':
         speak("Welcome to Creative Math Sandbox! Let's count warm toys and solve math equations!");
@@ -217,27 +213,6 @@ export default function App() {
                   </div>
                 </motion.button>
 
-                {/* Play Card 4: Phonics cards */}
-                <motion.button
-                  id="lobby_card_phonics"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => changeRoom('phonics')}
-                  className="bg-white p-6 rounded-[32px] border-b-8 border-kid-green-mint flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-kid-green-mint flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
-                    🅰️
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
-                      Letter Phonics Board
-                    </h3>
-                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
-                      Sound sandbox! Click alphabet card bubbles to hear high pitch spoken English phonics lessons.
-                    </p>
-                  </div>
-                </motion.button>
-
                 {/* Play Card 5: Basic Arithmetic Sandbox */}
                 <motion.button
                   id="lobby_card_math"
@@ -297,69 +272,6 @@ export default function App() {
                     </h3>
                     <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
                       Adaptive sorting sandbox! Drag objects into matching buckets. Difficulty grows as you get faster!
-                    </p>
-                  </div>
-                </motion.button>
-
-                {/* Play Card 8: Animal Discovery */}
-                <motion.button
-                  id="lobby_card_discovery"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => changeRoom('discovery')}
-                  className="bg-white p-6 rounded-[32px] border-b-8 border-sky-400 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-sky-100 flex flex-shrink-0 items-center justify-center text-sky-500 text-4xl shadow-inner group-hover:scale-110 transition-transform">
-                    <Dog size={32} strokeWidth={3} />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
-                      Animal Kingdom Discovery
-                    </h3>
-                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
-                      Identify animal friends by their sounds and names. Unlock more animals as you level up!
-                    </p>
-                  </div>
-                </motion.button>
-
-                {/* Play Card 9: Ordering & Comparison */}
-                <motion.button
-                  id="lobby_card_ordering"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => changeRoom('ordering')}
-                  className="bg-white p-6 rounded-[32px] border-b-8 border-amber-400 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-amber-100 flex flex-shrink-0 items-center justify-center text-amber-500 text-4xl shadow-inner group-hover:scale-110 transition-transform">
-                    <ListOrdered size={32} strokeWidth={3} />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
-                      Ordering & Comparison
-                    </h3>
-                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
-                      Smallest to biggest! Put cute toys in order on the magic shelf to build size recognition.
-                    </p>
-                  </div>
-                </motion.button>
-
-                {/* Play Card 10: Logic Sequences */}
-                <motion.button
-                  id="lobby_card_logic"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => changeRoom('logic')}
-                  className="bg-white p-6 rounded-[32px] border-b-8 border-stone-400 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-stone-100 flex flex-shrink-0 items-center justify-center text-stone-500 text-4xl shadow-inner group-hover:scale-110 transition-transform">
-                    <TrainFront size={32} strokeWidth={3} />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
-                      Logic Sequence Train
-                    </h3>
-                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
-                      Help the logic train! Complete cargo patterns to move the train forward. Early coding thinking!
                     </p>
                   </div>
                 </motion.button>
@@ -430,7 +342,9 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <ArithmeticMath />
+              <ActivityWrapper title="Arithmetic Math Playroom" description="Solve math equations with toy counters!">
+                {(props) => <ArithmeticMath {...props} />}
+              </ActivityWrapper>
             </motion.div>
           )}
 

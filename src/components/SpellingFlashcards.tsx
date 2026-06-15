@@ -19,7 +19,17 @@ const SPELLING_WORDS: SpellingWord[] = [
   { word: 'BEE', emoji: '🐝', hint: 'A buzzing yellow friend that drafts sweet honey!' },
   { word: 'BALL', emoji: '⚽', hint: 'Roll it or kick it to play games with buddies!' },
   { word: 'FROG', emoji: '🐸', hint: 'A tiny green crawler that ribbits and leaps!' },
-  { word: 'MILK', emoji: '🥛', hint: 'A cool, delicious white drink full of calcium!' }
+  { word: 'MILK', emoji: '🥛', hint: 'A cool, delicious white drink full of calcium!' },
+  { word: 'FISH', emoji: '🐟', hint: 'A shiny friend that swims underwater!' },
+  { word: 'CAKE', emoji: '🍰', hint: 'A sweet treat for birthdays and parties!' },
+  { word: 'BOOK', emoji: '📖', hint: 'Flip the pages to read a magical story!' },
+  { word: 'TREE', emoji: '🌳', hint: 'Tall and green with branches for birds to nest!' },
+  { word: 'MOON', emoji: '🌙', hint: 'A glowing white shape in the night sky!' },
+  { word: 'DUCK', emoji: '🦆', hint: 'A quacking friend that loves to paddle in ponds!' },
+  { word: 'LION', emoji: '🦁', hint: 'A brave animal with a big golden mane that roars!' },
+  { word: 'STAR', emoji: '⭐', hint: 'A tiny twinkling light high up in the sky!' },
+  { word: 'BIRD', emoji: '🐦', hint: 'A chirping friend that flies with colorful wings!' },
+  { word: 'BOAT', emoji: '⛵', hint: 'It floats on the water and sails across the sea!' }
 ];
 
 export default function SpellingFlashcards() {
@@ -34,6 +44,7 @@ export default function SpellingFlashcards() {
   const [shuffledPool, setShuffledPool] = useState<{ id: string; letter: string; used: boolean }[]>([]);
   const [shakeLetterId, setShakeLetterId] = useState<string | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isRevealing, setIsRevealing] = useState(true);
 
   // Re-build word bubble inputs when level changes
   useEffect(() => {
@@ -58,6 +69,13 @@ export default function SpellingFlashcards() {
     setShuffledPool(shuffled);
     setSpeltLetters([]);
     setIsCompleted(false);
+    setIsRevealing(true);
+
+    const revealTimer = setTimeout(() => {
+      setIsRevealing(false);
+    }, 3000);
+
+    return () => clearTimeout(revealTimer);
   }, [levelIndex, word]);
 
   // Read word out loud on load
@@ -73,7 +91,7 @@ export default function SpellingFlashcards() {
   }, [levelIndex, word]);
 
   const handleBalloonTap = (bubbleId: string, char: string) => {
-    if (isCompleted) return;
+    if (isCompleted || isRevealing) return;
 
     // Determine the next index we need to fill
     const nextIndexToFill = speltLetters.length;
@@ -116,7 +134,7 @@ export default function SpellingFlashcards() {
   };
 
   const handleBackspace = () => {
-    if (speltLetters.length === 0 || isCompleted) return;
+    if (speltLetters.length === 0 || isCompleted || isRevealing) return;
     playPop();
     const removedLetter = speltLetters[speltLetters.length - 1];
     
@@ -158,7 +176,7 @@ export default function SpellingFlashcards() {
         Spell & Learn Sandbox! ✏️
       </h2>
       <p className="text-kid-sub text-sm font-bold text-center mb-6 max-w-sm">
-        Match the matching balloons in order to write the flashcard word!
+        {isRevealing ? "Look closely at the spelling!" : "Match the matching balloons in order to write the flashcard word!"}
       </p>
 
       {/* Main Flashcard Display Screen */}
@@ -188,16 +206,16 @@ export default function SpellingFlashcards() {
               <motion.div
                 id={`spell_slot_${index}`}
                 key={index}
-                animate={isFilled ? { scale: [1, 1.15, 1] } : {}}
+                animate={isFilled || isRevealing ? { scale: [1, 1.15, 1] } : {}}
                 className={`w-14 h-14 sm:w-16 sm:h-16 rounded-[20px] pb-1.5 border-4 flex items-center justify-center text-3xl font-black transition-all ${
-                  isFilled
+                  isFilled || isRevealing
                     ? 'bg-white border-kid-peach-dark text-kid-dark shadow-[0_4px_0_#E9C08B]'
                     : isCompleted
                       ? 'bg-kid-green-bg border-kid-green-mint text-kid-green-dark'
                       : 'bg-white border-dashed border-slate-300 text-slate-300 animate-pulse'
                 }`}
               >
-                {isFilled ? currentFilledValue : '?'}
+                {isFilled ? currentFilledValue : (isRevealing ? word[index] : '?')}
               </motion.div>
             );
           })}
@@ -205,9 +223,9 @@ export default function SpellingFlashcards() {
       </div>
 
       {/* Interactive Balloon Alphabet Bubbles Pool */}
-      <div id="alphabet_pool_box" className="w-full bg-slate-50 p-6 rounded-[28px] border-3 border-kid-red/20 flex flex-col items-center">
+      <div id="alphabet_pool_box" className={`w-full bg-slate-50 p-6 rounded-[28px] border-3 border-kid-red/20 flex flex-col items-center transition-opacity ${isRevealing ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
         <h3 className="text-xs font-black uppercase tracking-widest text-kid-sub mb-4">
-          🎈 Tap the spelling bubbles in order
+          {isRevealing ? "Wait for it..." : "🎈 Tap the spelling bubbles in order"}
         </h3>
 
         {/* Bubble balloons pool list */}
