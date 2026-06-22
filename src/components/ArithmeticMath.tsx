@@ -51,7 +51,7 @@ export default function ArithmeticMath({ level, onAnswer }: ActivityProps) {
     // Level 5: Mixed 1-20
     const isAddition = level === 1 ? true : level === 2 ? false : level === 3 ? true : level === 4 ? false : Math.random() > 0.5;
     
-    const range = level <= 2 ? 5 : level <= 4 ? 10 : 15;
+    const range = level <= 2 ? 5 : level <= 4 ? 10 : 20;
     const num1 = Math.floor(Math.random() * (range - 1)) + 2;
     const num2 = Math.floor(Math.random() * (isAddition ? (range - num1 + 1) : num1 - 1)) + 1;
 

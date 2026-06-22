@@ -10,10 +10,15 @@ import ColorShapeSorter from './components/ColorShapeSorter';
 import AnimalDiscovery from './components/AnimalDiscovery';
 import OrderingComparison from './components/OrderingComparison';
 import LogicSequences from './components/LogicSequences';
+import ShapeGeometry from './components/ShapeGeometry';
+import MoneyAussie from './components/MoneyAussie';
+import ClockTelling from './components/ClockTelling';
+import MissingNumbers from './components/MissingNumbers';
+import NumberComparison from './components/NumberComparison';
 import { playPop, playChime, speak } from './utils/audio';
-import { Sparkles, Gamepad2, Award, Heart, Shield, Undo2, Star, BookOpen, Smile, Palette, Wand2, Boxes, Dog, ListOrdered, TrainFront } from 'lucide-react';
+import { Sparkles, Gamepad2, Award, Heart, Shield, Undo2, Star, BookOpen, Smile, Palette, Wand2, Boxes, Dog, ListOrdered, TrainFront, Shapes, Coins, Clock } from 'lucide-react';
 
-type Tab = 'lobby' | 'tracing' | 'patterns' | 'counting' | 'phonics' | 'math' | 'spelling' | 'sorting' | 'discovery' | 'ordering' | 'logic';
+type Tab = 'lobby' | 'tracing' | 'patterns' | 'counting' | 'math' | 'spelling' | 'sorting' | 'discovery' | 'ordering' | 'logic' | 'geometry' | 'money' | 'clock' | 'missing_numbers' | 'number_comparison';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('lobby');
@@ -58,6 +63,21 @@ export default function App() {
         break;
       case 'logic':
         speak("Logic Train! Help the train solve the cargo patterns!");
+        break;
+      case 'geometry':
+        speak("Shape Explorer! Let's learn about shapes and geometry!");
+        break;
+      case 'money':
+        speak("Money Sandbox! Let's learn about Australian coins!");
+        break;
+      case 'clock':
+        speak("Telling Time! Let's learn how to read a clock!");
+        break;
+      case 'missing_numbers':
+        speak("Welcome to the Missing Numbers game! Let's find the missing stepping stones!");
+        break;
+      case 'number_comparison':
+        speak("Welcome to Greater or Lesser! Let's compare numbers!");
         break;
       case 'lobby':
         speak("Back to the playroom lobby!");
@@ -147,12 +167,11 @@ export default function App() {
                 </p>
               </div>
 
-              {/* Four Giant Lobby Cards */}
-              <div id="lobby_games_grid" className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-4xl px-2">
+              {/* Lobby Games Grid */}
+              <div id="lobby_games_grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl px-2">
                 
                 {/* Play Card 1: Letter Tracing */}
                 <motion.button
-                  id="lobby_card_tracing"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => changeRoom('tracing')}
@@ -162,18 +181,17 @@ export default function App() {
                     Aa
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
-                      Trace Letters & Numbers
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Trace Letters
                     </h3>
-                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
-                      Practice drawing letters and numbers with crayon stars! Friendly instructions guided by sound waves.
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Practice drawing letters and numbers with stars!
                     </p>
                   </div>
                 </motion.button>
 
                 {/* Play Card 2: Pattern Match */}
                 <motion.button
-                  id="lobby_card_patterns"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => changeRoom('patterns')}
@@ -183,18 +201,17 @@ export default function App() {
                     🧩
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
-                      Pattern Matching Game
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Pattern Matching
                     </h3>
-                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
-                      Complete visual sequences of toys, delicious fruits and cute animals to build school readiness!
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Complete visual sequences of toys and animals!
                     </p>
                   </div>
                 </motion.button>
 
                 {/* Play Card 3: Balloon Pop Counting */}
                 <motion.button
-                  id="lobby_card_counting"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => changeRoom('counting')}
@@ -204,18 +221,77 @@ export default function App() {
                     🎈
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
-                      Pop & Count Balloons
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Pop & Count
                     </h3>
-                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
-                      Bubble room pops! Count floating items aloud with audio and match correct numbers.
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Count floating items and match numbers!
                     </p>
                   </div>
                 </motion.button>
 
-                {/* Play Card 5: Basic Arithmetic Sandbox */}
+                {/* Play Card 4: Geometry */}
                 <motion.button
-                  id="lobby_card_math"
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('geometry')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-kid-green-mint/70 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-kid-green-mint flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    <Shapes size={32} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Shape Explorer
+                    </h3>
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Learn about 2D and 3D shapes and geometry!
+                    </p>
+                  </div>
+                </motion.button>
+
+                {/* Play Card 5: Money */}
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('money')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-yellow-500/70 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-yellow-400 flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    <Coins size={32} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Money Sandbox
+                    </h3>
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Learn and count Australian coins!
+                    </p>
+                  </div>
+                </motion.button>
+
+                {/* Play Card 6: Clock */}
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('clock')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-sky-500/70 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-sky-400 flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    <Clock size={32} strokeWidth={3} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Telling Time
+                    </h3>
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Match analog and digital clocks!
+                    </p>
+                  </div>
+                </motion.button>
+
+                {/* Play Card 7: Basic Arithmetic */}
+                <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => changeRoom('math')}
@@ -225,18 +301,17 @@ export default function App() {
                     🧮
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
-                      Arithmetic Math Playroom
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Arithmetic Math
                     </h3>
-                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
-                      Math sandbox! Count cute toy teddy bears, yummy apples, and balloons to solve small additions and subtractions.
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Solve small additions and subtractions!
                     </p>
                   </div>
                 </motion.button>
 
-                {/* Play Card 6: Spelling Flashcards */}
+                {/* Play Card 8: Spelling */}
                 <motion.button
-                  id="lobby_card_spelling"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => changeRoom('spelling')}
@@ -246,18 +321,17 @@ export default function App() {
                     ✏️
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
-                      Spelling Flashcards
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Spelling Cards
                     </h3>
-                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
-                      Let's spell together! Click on matching balloon letters in sequence to spell cute animal, fruit, and sky words.
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Spell animal, fruit, and sky words!
                     </p>
                   </div>
                 </motion.button>
 
-                {/* Play Card 7: Color & Shape Sorter */}
+                {/* Play Card 9: Sorting */}
                 <motion.button
-                  id="lobby_card_sorting"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => changeRoom('sorting')}
@@ -267,11 +341,51 @@ export default function App() {
                     <Boxes size={32} strokeWidth={3} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-kid-dark tracking-tight">
-                      Color & Shape Sorter
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Color & Shape
                     </h3>
-                    <p className="text-kid-sub text-xs font-semibold mt-1 leading-relaxed">
-                      Adaptive sorting sandbox! Drag objects into matching buckets. Difficulty grows as you get faster!
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Match objects into correct buckets!
+                    </p>
+                  </div>
+                </motion.button>
+
+                {/* Play Card 10: Missing Numbers */}
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('missing_numbers')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-kid-purple/70 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-kid-purple flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    ❓
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Missing Numbers
+                    </h3>
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Find the missing number in the line!
+                    </p>
+                  </div>
+                </motion.button>
+
+                {/* Play Card 11: Compare Numbers */}
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('number_comparison')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-kid-blue/70 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-kid-blue flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    🐊
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Compare Numbers
+                    </h3>
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Choose which number is greater or lesser!
                     </p>
                   </div>
                 </motion.button>
@@ -317,19 +431,6 @@ export default function App() {
               className="w-full"
             >
               <BalloonPop />
-            </motion.div>
-          )}
-
-          {activeTab === 'phonics' && (
-            <motion.div
-              key="phonics"
-              initial={{ opacity: 0, x: 200 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -200 }}
-              transition={{ type: 'spring', damping: 20 }}
-              className="w-full"
-            >
-              <PhonicsBoard />
             </motion.div>
           )}
 
@@ -417,6 +518,81 @@ export default function App() {
             >
               <ActivityWrapper title="Logic Sequence Train" description="Complete cargo patterns!">
                 {(props) => <LogicSequences {...props} />}
+              </ActivityWrapper>
+            </motion.div>
+          )}
+
+          {activeTab === 'geometry' && (
+            <motion.div
+              key="geometry"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <ActivityWrapper title="Shape Explorer" description="Learn about shapes and geometry!">
+                {(props) => <ShapeGeometry {...props} />}
+              </ActivityWrapper>
+            </motion.div>
+          )}
+
+          {activeTab === 'money' && (
+            <motion.div
+              key="money"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <ActivityWrapper title="Money Sandbox" description="Learn about Australian coins!">
+                {(props) => <MoneyAussie {...props} />}
+              </ActivityWrapper>
+            </motion.div>
+          )}
+
+          {activeTab === 'clock' && (
+            <motion.div
+              key="clock"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <ActivityWrapper title="Telling Time" description="Match analog and digital clocks!">
+                {(props) => <ClockTelling {...props} />}
+              </ActivityWrapper>
+            </motion.div>
+          )}
+
+          {activeTab === 'missing_numbers' && (
+            <motion.div
+              key="missing_numbers"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <ActivityWrapper title="Missing Numbers" description="Find the missing stepping stone!">
+                {(props) => <MissingNumbers {...props} />}
+              </ActivityWrapper>
+            </motion.div>
+          )}
+
+          {activeTab === 'number_comparison' && (
+            <motion.div
+              key="number_comparison"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <ActivityWrapper title="Compare Numbers" description="Greater, lesser, or equal!">
+                {(props) => <NumberComparison {...props} />}
               </ActivityWrapper>
             </motion.div>
           )}
