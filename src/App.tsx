@@ -177,26 +177,6 @@ export default function App() {
               <div id="lobby_games_grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl px-2">
                 
                 {/* Play Card 1: Letter Tracing */}
-                {gameMode === 'study' && (
-                <motion.button
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => changeRoom('tracing')}
-                  className="bg-white p-6 rounded-[32px] border-b-8 border-kid-peach-dark flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-kid-peach flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
-                    Aa
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
-                      Trace Letters
-                    </h3>
-                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
-                      Practice drawing letters and numbers with stars!
-                    </p>
-                  </div>
-                </motion.button>
-                )}
 
                 {/* Play Card 2: Pattern Match */}
                 {gameMode === 'study' && (

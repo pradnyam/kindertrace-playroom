@@ -222,25 +222,6 @@ export default function MathTimeTablesGame({ level, onAnswer }: ActivityProps) {
             </div>
 
             {/* Supporting visual array - compact size for helper */}
-            <div className="flex flex-col gap-1.5 p-3 bg-white/80 rounded-[20px] border-2 border-dashed border-stone-200 shadow-inner max-w-full overflow-auto">
-              {Array.from({ length: challenge.num1 }).map((_, rIdx) => (
-                <div key={`quiz-row-${rIdx}`} className="flex gap-1.5 justify-center">
-                  {Array.from({ length: challenge.num2 }).map((_, cIdx) => (
-                    <div
-                      key={`quiz-col-${cIdx}`}
-                      className="w-8 h-8 rounded-lg bg-stone-50 border border-stone-100 flex items-center justify-center animate-pulse"
-                    >
-                      <span className="text-lg select-none">{challenge.toyEmoji}</span>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-
-            <p className="text-[10px] font-bold text-kid-sub mt-4">
-              💡 Hint: There are {challenge.num1} rows of {challenge.num2} {challenge.toyEmoji} above! Count them!
-            </p>
-
           </div>
 
           {/* Choices balloon selectors */}
