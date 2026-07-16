@@ -5,29 +5,35 @@ import PatternMatch from './components/PatternMatch';
 import BalloonPop from './components/BalloonPop';
 import ArithmeticMath from './components/ArithmeticMath';
 import SpellingFlashcards from './components/SpellingFlashcards';
-import ActivityWrapper from './components/ActivityWrapper';
-import ColorShapeSorter from './components/ColorShapeSorter';
+import FlashcardStudy from './components/FlashcardStudy';
+import FlashcardQuiz from './components/FlashcardQuiz';
+import ActivityWrapper, { GameMode } from './components/ActivityWrapper';
 import AnimalDiscovery from './components/AnimalDiscovery';
 import OrderingComparison from './components/OrderingComparison';
 import LogicSequences from './components/LogicSequences';
 import ShapeGeometry from './components/ShapeGeometry';
 import MoneyAussie from './components/MoneyAussie';
-import ClockTelling from './components/ClockTelling';
+import ClockStudy from './components/ClockStudy';
+import ClockQuiz from './components/ClockQuiz';
 import MissingNumbers from './components/MissingNumbers';
 import NumberComparison from './components/NumberComparison';
+import MathTimeTablesStudy from './components/MathTimeTablesStudy';
+import MathTimeTablesGame from './components/MathTimeTablesGame';
+import StudyQuizMenu from './components/StudyQuizMenu';
 import { playPop, playChime, speak } from './utils/audio';
 import { Sparkles, Gamepad2, Award, Heart, Shield, Undo2, Star, BookOpen, Smile, Palette, Wand2, Boxes, Dog, ListOrdered, TrainFront, Shapes, Coins, Clock } from 'lucide-react';
 
-type Tab = 'lobby' | 'tracing' | 'patterns' | 'counting' | 'math' | 'spelling' | 'sorting' | 'discovery' | 'ordering' | 'logic' | 'geometry' | 'money' | 'clock' | 'missing_numbers' | 'number_comparison';
+type Tab = 'lobby' | 'tracing' | 'patterns' | 'counting' | 'math' | 'spelling' | 'discovery' | 'ordering' | 'logic' | 'geometry' | 'money' | 'clock' | 'missing_numbers' | 'number_comparison' | 'timestables_study' | 'timestables_game';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('lobby');
   const [trophyCount, setTrophyCount] = useState(0);
+  const [gameMode, setGameMode] = useState<GameMode>('study');
 
   useEffect(() => {
     // Say a warm greeting on load
     setTimeout(() => {
-      speak("Welcome to KinderTrace Playroom! Let's choose a game to play!");
+      speak("Welcome to Kindy Playroom! Let's choose a game to play!");
     }, 800);
   }, []);
 
@@ -50,10 +56,7 @@ export default function App() {
         speak("Welcome to Creative Math Sandbox! Let's count warm toys and solve math equations!");
         break;
       case 'spelling':
-        speak("Spelling flashcards! Let's spell bubble words together!");
-        break;
-      case 'sorting':
-        speak("Welcome to the Sorting Room! Match colors and shapes!");
+        speak("Flashcard study! Let's learn to spell words together!");
         break;
       case 'discovery':
         speak("Animal Kingdom! Can you find all the animal friends?");
@@ -65,7 +68,7 @@ export default function App() {
         speak("Logic Train! Help the train solve the cargo patterns!");
         break;
       case 'geometry':
-        speak("Shape Explorer! Let's learn about shapes and geometry!");
+        speak("Shape and Color Playroom! Let's learn shapes and sort them!");
         break;
       case 'money':
         speak("Money Sandbox! Let's learn about Australian coins!");
@@ -78,6 +81,12 @@ export default function App() {
         break;
       case 'number_comparison':
         speak("Welcome to Greater or Lesser! Let's compare numbers!");
+        break;
+      case 'timestables_study':
+        speak("Welcome to Times Tables Study Room! Pick a table and count toys!");
+        break;
+      case 'timestables_game':
+        speak("Welcome to Times Tables Balloon Pop Quiz! Let's solve multiplication questions!");
         break;
       case 'lobby':
         speak("Back to the playroom lobby!");
@@ -105,10 +114,10 @@ export default function App() {
             </motion.div>
             <div>
               <h1 className="text-2xl sm:text-4xl font-black text-kid-dark tracking-tight leading-none uppercase">
-                KinderTrace
+                Kindy Playroom
               </h1>
               <span className="text-xs sm:text-sm font-bold text-kid-sub">
-                Let's trace together, little explorer! 🐯
+                Let's play and learn together, little explorer! 🐯
               </span>
             </div>
           </button>
@@ -126,10 +135,7 @@ export default function App() {
             </button>
           )}
 
-          <div id="trophy_star_bubble" className="bg-white border-4 border-kid-green-mint rounded-full px-4 sm:px-6 py-2 flex items-center gap-2 shadow-sm text-sm sm:text-base font-bold text-kid-dark">
-            <span>⭐</span>
-            <span className="font-extrabold text-kid-dark">Super Kid</span>
-          </div>
+          <StudyQuizMenu onModeSelect={setGameMode} currentMode={gameMode} />
         </div>
       </header>
 
@@ -160,7 +166,7 @@ export default function App() {
                   🐯
                 </motion.div>
                 <h2 className="text-2xl sm:text-3xl font-black text-kid-dark tracking-tight leading-none mb-2">
-                  Welcome to KinderTrace!
+                  Welcome to Kindy Playroom!
                 </h2>
                 <p className="text-kid-sub font-bold text-sm">
                   Let's choose an awesome game below to trace shapes, count elements, and play! All voices and sounds are kid-friendly!
@@ -171,6 +177,7 @@ export default function App() {
               <div id="lobby_games_grid" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl px-2">
                 
                 {/* Play Card 1: Letter Tracing */}
+                {gameMode === 'study' && (
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
@@ -189,8 +196,10 @@ export default function App() {
                     </p>
                   </div>
                 </motion.button>
+                )}
 
                 {/* Play Card 2: Pattern Match */}
+                {gameMode === 'study' && (
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
@@ -209,8 +218,10 @@ export default function App() {
                     </p>
                   </div>
                 </motion.button>
+                )}
 
                 {/* Play Card 3: Balloon Pop Counting */}
+                {gameMode === 'study' && (
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
@@ -229,8 +240,10 @@ export default function App() {
                     </p>
                   </div>
                 </motion.button>
+                )}
 
                 {/* Play Card 4: Geometry */}
+                {gameMode === 'study' && (
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
@@ -242,15 +255,17 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="text-lg font-black text-kid-dark tracking-tight">
-                      Shape Explorer
+                      Shape & Color
                     </h3>
                     <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
-                      Learn about 2D and 3D shapes and geometry!
+                      Explore shapes, count sides, and sort by colors & shapes!
                     </p>
                   </div>
                 </motion.button>
+                )}
 
                 {/* Play Card 5: Money */}
+                {gameMode === 'study' && (
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
@@ -262,13 +277,14 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="text-lg font-black text-kid-dark tracking-tight">
-                      Money Sandbox
+                      Australian Currency
                     </h3>
                     <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
                       Learn and count Australian coins!
                     </p>
                   </div>
                 </motion.button>
+                )}
 
                 {/* Play Card 6: Clock */}
                 <motion.button
@@ -282,7 +298,7 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="text-lg font-black text-kid-dark tracking-tight">
-                      Telling Time
+                      Clock
                     </h3>
                     <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
                       Match analog and digital clocks!
@@ -290,7 +306,8 @@ export default function App() {
                   </div>
                 </motion.button>
 
-                {/* Play Card 7: Basic Arithmetic */}
+                {/* Play Card 7: Basic Arithmetic (Quiz Mode Only) */}
+                {gameMode === 'quiz' && (
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
@@ -309,8 +326,32 @@ export default function App() {
                     </p>
                   </div>
                 </motion.button>
+                )}
 
-                {/* Play Card 8: Spelling */}
+                {/* Play Card 8: Flashcard Study (Study Mode Only) */}
+                {gameMode === 'study' && (
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('spelling')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-kid-blue flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-kid-blue flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    📚
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Flashcard
+                    </h3>
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Learn spelling of animals, objects, nature, and body parts!
+                    </p>
+                  </div>
+                </motion.button>
+                )}
+
+                {/* Play Card 9: Flashcard Quiz (Quiz Mode Only) */}
+                {gameMode === 'quiz' && (
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
@@ -322,35 +363,19 @@ export default function App() {
                   </div>
                   <div>
                     <h3 className="text-lg font-black text-kid-dark tracking-tight">
-                      Spelling Cards
+                      Flashcard
                     </h3>
                     <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
-                      Spell animal, fruit, and sky words!
+                      Spell animal, object, nature, and body part words correctly!
                     </p>
                   </div>
                 </motion.button>
+                )}
 
-                {/* Play Card 9: Sorting */}
-                <motion.button
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => changeRoom('sorting')}
-                  className="bg-white p-6 rounded-[32px] border-b-8 border-kid-yellow-dark flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
-                >
-                  <div className="w-16 h-16 rounded-2xl bg-kid-yellow flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
-                    <Boxes size={32} strokeWidth={3} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
-                      Color & Shape
-                    </h3>
-                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
-                      Match objects into correct buckets!
-                    </p>
-                  </div>
-                </motion.button>
+
 
                 {/* Play Card 10: Missing Numbers */}
+                {gameMode === 'quiz' && (
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
@@ -369,8 +394,10 @@ export default function App() {
                     </p>
                   </div>
                 </motion.button>
+                )}
 
                 {/* Play Card 11: Compare Numbers */}
+                {gameMode === 'quiz' && (
                 <motion.button
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
@@ -389,6 +416,51 @@ export default function App() {
                     </p>
                   </div>
                 </motion.button>
+                )}
+
+                {/* Play Card 12: Times Tables Study (Study Mode Only) */}
+                {gameMode === 'study' && (
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('timestables_study')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-kid-blue/70 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-kid-blue flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    🧮
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Times Tables
+                    </h3>
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Explore multiplication charts and visual group arrays!
+                    </p>
+                  </div>
+                </motion.button>
+                )}
+
+                {/* Play Card 13: Times Tables Game (Quiz Mode Only) */}
+                {gameMode === 'quiz' && (
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => changeRoom('timestables_game')}
+                  className="bg-white p-6 rounded-[32px] border-b-8 border-rose-400/70 flex items-center gap-5 text-left group shadow-sm hover:shadow-md cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-rose-300 flex flex-shrink-0 items-center justify-center text-white text-4xl shadow-inner group-hover:scale-110 transition-transform">
+                    🎮
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black text-kid-dark tracking-tight">
+                      Times Tables
+                    </h3>
+                    <p className="text-kid-sub text-[10px] font-semibold mt-1 leading-tight">
+                      Pop balloons to test your multiplication skills and win trophies!
+                    </p>
+                  </div>
+                </motion.button>
+                )}
 
               </div>
             </motion.div>
@@ -434,7 +506,7 @@ export default function App() {
             </motion.div>
           )}
 
-          {activeTab === 'math' && (
+          {activeTab === 'math' && gameMode === 'quiz' && (
             <motion.div
               key="math"
               initial={{ opacity: 0, x: 200 }}
@@ -443,7 +515,11 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <ActivityWrapper title="Arithmetic Math Playroom" description="Solve math equations with toy counters!">
+              <ActivityWrapper 
+                title="Arithmetic Math Playroom" 
+                description="Solve math equations with toy counters!"
+                mode={gameMode}
+              >
                 {(props) => <ArithmeticMath {...props} />}
               </ActivityWrapper>
             </motion.div>
@@ -458,24 +534,21 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <SpellingFlashcards />
+              {gameMode === 'study' ? (
+                <FlashcardStudy />
+              ) : (
+                <ActivityWrapper 
+                  title="Flashcard Quiz Mode" 
+                  description="Spell words correctly!"
+                  mode={gameMode}
+                >
+                  {(props) => <FlashcardQuiz {...props} />}
+                </ActivityWrapper>
+              )}
             </motion.div>
           )}
 
-          {activeTab === 'sorting' && (
-            <motion.div
-              key="sorting"
-              initial={{ opacity: 0, x: 200 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -200 }}
-              transition={{ type: 'spring', damping: 20 }}
-              className="w-full"
-            >
-              <ActivityWrapper title="Color & Shape Sorter" description="Adaptive sorting sandbox!">
-                {(props) => <ColorShapeSorter {...props} />}
-              </ActivityWrapper>
-            </motion.div>
-          )}
+
 
           {activeTab === 'discovery' && (
             <motion.div
@@ -486,7 +559,23 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <ActivityWrapper title="Animal Kingdom Discovery" description="Identify animal friends!">
+              <ActivityWrapper 
+                title="Animal Kingdom Discovery" 
+                description="Identify animal friends!"
+                mode={gameMode}
+                studyContent={
+                  <div className="space-y-3">
+                    <h4 className="font-black text-lg text-kid-dark">🐾 Discovering Animals</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li><strong>1. Animal Names:</strong> Each level shows you different animals. Listen to their names!</li>
+                      <li><strong>2. Sound Clues:</strong> Many animals have special sounds - can you guess by their "moo", "woof", or "meow"?</li>
+                      <li><strong>3. Visual Clues:</strong> Look at colors, patterns, and shapes to identify the animal.</li>
+                      <li><strong>4. Fun Facts:</strong> Learn where animals live and what they eat!</li>
+                      <li><strong>5. Try Again:</strong> If you get it wrong, listen carefully to the hint and try the next one!</li>
+                    </ul>
+                  </div>
+                }
+              >
                 {(props) => <AnimalDiscovery {...props} />}
               </ActivityWrapper>
             </motion.div>
@@ -501,7 +590,23 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <ActivityWrapper title="Ordering & Comparison" description="Smallest to biggest!">
+              <ActivityWrapper 
+                title="Ordering & Comparison" 
+                description="Smallest to biggest!"
+                mode={gameMode}
+                studyContent={
+                  <div className="space-y-3">
+                    <h4 className="font-black text-lg text-kid-dark">📏 Learning to Order</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li><strong>1. Size Matters:</strong> We can order things by size - small, medium, big!</li>
+                      <li><strong>2. Smallest First:</strong> Put the tiniest item at the beginning.</li>
+                      <li><strong>3. Biggest Last:</strong> Put the largest item at the end.</li>
+                      <li><strong>4. In Between:</strong> Items in the middle should fit between smallest and biggest.</li>
+                      <li><strong>5. Real Examples:</strong> Think about ordering cups, blocks, or dolls from smallest to biggest!</li>
+                    </ul>
+                  </div>
+                }
+              >
                 {(props) => <OrderingComparison {...props} />}
               </ActivityWrapper>
             </motion.div>
@@ -516,7 +621,23 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <ActivityWrapper title="Logic Sequence Train" description="Complete cargo patterns!">
+              <ActivityWrapper 
+                title="Logic Sequence Train" 
+                description="Complete cargo patterns!"
+                mode={gameMode}
+                studyContent={
+                  <div className="space-y-3">
+                    <h4 className="font-black text-lg text-kid-dark">🚂 Understanding Patterns</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li><strong>1. What's a Pattern?</strong> A pattern is a sequence that repeats! Like red-blue-red-blue...</li>
+                      <li><strong>2. Spot the Repeat:</strong> Look at what you see and figure out what comes next.</li>
+                      <li><strong>3. Train Cargo:</strong> The cargo (boxes) follow a pattern. Can you guess the next one?</li>
+                      <li><strong>4. Colors & Shapes:</strong> Patterns can be made with colors, shapes, numbers, or objects.</li>
+                      <li><strong>5. Practice:</strong> Once you see the pattern, predicting the next item is easy-peasy!</li>
+                    </ul>
+                  </div>
+                }
+              >
                 {(props) => <LogicSequences {...props} />}
               </ActivityWrapper>
             </motion.div>
@@ -531,7 +652,31 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <ActivityWrapper title="Shape Explorer" description="Learn about shapes and geometry!">
+              <ActivityWrapper 
+                title="Shape & Color Playroom" 
+                description="Explore shapes, count sides, and sort them by color or shape!"
+                mode={gameMode}
+                studyContent={
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-black text-lg text-kid-dark">🔷 Learning Shapes</h4>
+                      <ul className="space-y-1.5 text-sm list-disc pl-5">
+                        <li><strong>Basic Shapes:</strong> Circle, square, triangle, rectangle, pentagon, hexagon, octagon, star.</li>
+                        <li><strong>Count the Sides:</strong> Triangles have 3 sides, squares have 4, circles have 0!</li>
+                        <li><strong>3D Shapes:</strong> Sphere (ball), cube (box), cone, and cylinder!</li>
+                      </ul>
+                    </div>
+                    <div className="border-t border-kid-peach pt-3">
+                      <h4 className="font-black text-lg text-kid-dark">🎨 Learning to Sort</h4>
+                      <ul className="space-y-1.5 text-sm list-disc pl-5">
+                        <li><strong>What is Sorting?</strong> Sorting means putting similar things together into groups.</li>
+                        <li><strong>Color Groups:</strong> Put red items in the red bucket, blue in the blue bucket!</li>
+                        <li><strong>Shape Groups:</strong> Put circles in the circle bucket, squares in the square bucket!</li>
+                      </ul>
+                    </div>
+                  </div>
+                }
+              >
                 {(props) => <ShapeGeometry {...props} />}
               </ActivityWrapper>
             </motion.div>
@@ -546,7 +691,23 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <ActivityWrapper title="Money Sandbox" description="Learn about Australian coins!">
+              <ActivityWrapper 
+                title="Australian Currency"
+                description="Learn about Australian coins!"
+                mode={gameMode}
+                studyContent={
+                  <div className="space-y-3">
+                    <h4 className="font-black text-lg text-kid-dark">💰 Learning About Money</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li><strong>1. Australian Coins:</strong> We have coins worth 5¢, 10¢, 20¢, 50¢, $1, and $2!</li>
+                      <li><strong>2. Coin Values:</strong> Each coin has a different value. Bigger doesn't always mean more worth!</li>
+                      <li><strong>3. Counting Money:</strong> Add up coins to find the total amount.</li>
+                      <li><strong>4. Real Shopping:</strong> Understanding money helps you buy toys and treats!</li>
+                      <li><strong>5. Save & Spend:</strong> You can save coins to buy something bigger later!</li>
+                    </ul>
+                  </div>
+                }
+              >
                 {(props) => <MoneyAussie {...props} />}
               </ActivityWrapper>
             </motion.div>
@@ -561,9 +722,17 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <ActivityWrapper title="Telling Time" description="Match analog and digital clocks!">
-                {(props) => <ClockTelling {...props} />}
-              </ActivityWrapper>
+              {gameMode === 'study' ? (
+                <ClockStudy />
+              ) : (
+                <ActivityWrapper 
+                  title="Telling Time" 
+                  description="Match analog and digital clocks!"
+                  mode={gameMode}
+                >
+                  {(props) => <ClockQuiz {...props} />}
+                </ActivityWrapper>
+              )}
             </motion.div>
           )}
 
@@ -576,7 +745,23 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <ActivityWrapper title="Missing Numbers" description="Find the missing stepping stone!">
+              <ActivityWrapper 
+                title="Missing Numbers" 
+                description="Find the missing stepping stone!"
+                mode={gameMode}
+                studyContent={
+                  <div className="space-y-3">
+                    <h4 className="font-black text-lg text-kid-dark">🔢 Finding Missing Numbers</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li><strong>1. Number Sequence:</strong> Numbers go in order: 1, 2, 3, 4, 5... and so on!</li>
+                      <li><strong>2. Spot the Gap:</strong> When a number is missing, look at what comes before and after.</li>
+                      <li><strong>3. Fill the Gap:</strong> Think about what number should go in the empty space.</li>
+                      <li><strong>4. Stepping Stones:</strong> Imagine crossing a river - you need every stepping stone!</li>
+                      <li><strong>5. Harder Levels:</strong> As you level up, you'll find missing numbers in bigger sequences!</li>
+                    </ul>
+                  </div>
+                }
+              >
                 {(props) => <MissingNumbers {...props} />}
               </ActivityWrapper>
             </motion.div>
@@ -591,8 +776,56 @@ export default function App() {
               transition={{ type: 'spring', damping: 20 }}
               className="w-full"
             >
-              <ActivityWrapper title="Compare Numbers" description="Greater, lesser, or equal!">
+              <ActivityWrapper 
+                title="Compare Numbers" 
+                description="Greater, lesser, or equal!"
+                mode={gameMode}
+                studyContent={
+                  <div className="space-y-3">
+                    <h4 className="font-black text-lg text-kid-dark">⚖️ Comparing Numbers</h4>
+                    <ul className="space-y-2 text-sm">
+                      <li><strong>1. Greater Than:</strong> If 5 is bigger than 3, then 5 is "greater than" 3!</li>
+                      <li><strong>2. Less Than:</strong> If 2 is smaller than 4, then 2 is "less than" 4!</li>
+                      <li><strong>3. Equal To:</strong> If you have 3 apples and 3 oranges, they're equal!</li>
+                      <li><strong>4. Symbols:</strong> We use &gt; for greater, &lt; for less, and = for equal.</li>
+                      <li><strong>5. Tips:</strong> The "mouth" always points to the bigger number! 5 &gt; 2 (mouth faces the 5).</li>
+                    </ul>
+                  </div>
+                }
+              >
                 {(props) => <NumberComparison {...props} />}
+              </ActivityWrapper>
+            </motion.div>
+          )}
+
+          {activeTab === 'timestables_study' && (
+            <motion.div
+              key="timestables_study"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <MathTimeTablesStudy />
+            </motion.div>
+          )}
+
+          {activeTab === 'timestables_game' && (
+            <motion.div
+              key="timestables_game"
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              transition={{ type: 'spring', damping: 20 }}
+              className="w-full"
+            >
+              <ActivityWrapper 
+                title="Times Tables Quiz Mode" 
+                description="Pop correct balloons to win trophies and stars!"
+                mode={gameMode}
+              >
+                {(props) => <MathTimeTablesGame {...props} />}
               </ActivityWrapper>
             </motion.div>
           )}

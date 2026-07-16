@@ -7,7 +7,7 @@ interface TimeOption {
   minutes: number;
 }
 
-export default function ClockTelling({ level, onAnswer }: ActivityProps) {
+export default function ClockQuiz({ level, onAnswer }: ActivityProps) {
   const [targetTime, setTargetTime] = useState<TimeOption>({ hours: 12, minutes: 0 });
   const [options, setOptions] = useState<TimeOption[]>([]);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -78,33 +78,56 @@ export default function ClockTelling({ level, onAnswer }: ActivityProps) {
           {/* Outer Ring */}
           <circle cx="50" cy="50" r="48" fill="white" stroke="#E9C08B" strokeWidth="4" />
           
+          {/* Soft Minute outer track border */}
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#FCECDA" strokeWidth="0.5" strokeDasharray="1 1" />
+
           {/* Tick Marks */}
           {[...Array(60)].map((_, i) => (
             <line
               key={i}
-              x1="50" y1="5" x2="50" y2={i % 5 === 0 ? 10 : 7}
-              stroke={i % 5 === 0 ? "#374151" : "#9CA3AF"}
-              strokeWidth={i % 5 === 0 ? "1.5" : "0.5"}
+              x1="50" y1="10" x2="50" y2={i % 5 === 0 ? 13 : 11}
+              stroke={i % 5 === 0 ? "#8C8C70" : "#D1D5DB"}
+              strokeWidth={i % 5 === 0 ? "1" : "0.5"}
               transform={`rotate(${i * 6} 50 50)`}
             />
           ))}
 
-          {/* Numbers */}
+          {/* Numbers (Hours & Minutes outside) */}
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => {
             const angle = (n * 30 - 90) * (Math.PI / 180);
-            const x = 50 + 36 * Math.cos(angle);
-            const y = 50 + 36 * Math.sin(angle);
+            // Hours coordinates (inner circle)
+            const hx = 50 + 29 * Math.cos(angle);
+            const hy = 50 + 29 * Math.sin(angle);
+            
+            // Minutes coordinates (outer ring)
+            const mx = 50 + 44 * Math.cos(angle);
+            const my = 50 + 44 * Math.sin(angle);
+            const minuteVal = (n * 5) % 60;
+            const minuteText = minuteVal.toString().padStart(2, '0');
+            
             return (
-              <text
-                key={n}
-                x={x}
-                y={y}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                className="text-[7px] font-black fill-kid-dark select-none"
-              >
-                {n}
-              </text>
+              <g key={n}>
+                {/* Hour (1-12) */}
+                <text
+                  x={hx}
+                  y={hy}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-[8px] font-black fill-kid-dark select-none"
+                >
+                  {n}
+                </text>
+                {/* Minute (05-00) */}
+                <text
+                  x={mx}
+                  y={my}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  className="text-[4px] font-black fill-kid-blue-text select-none"
+                >
+                  {minuteText}
+                </text>
+              </g>
             );
           })}
 
@@ -113,37 +136,37 @@ export default function ClockTelling({ level, onAnswer }: ActivityProps) {
             animate={{ rotate: minuteRotation }}
             transition={{ type: 'spring', stiffness: 50 }}
             style={{
-              originX: 0.5,       // Equates to 50%
-              originY: 1,         // Equates to 100%
+              originX: 0.5,
+              originY: 1,
               transformBox: 'fill-box'
             }}
           >
             <line
               x1="50" y1="50" x2="50" y2="12"
-              stroke="#4B5563" strokeWidth="2.5" strokeLinecap="round"
+              stroke="#8C8C70" strokeWidth="2.2" strokeLinecap="round"
             />
-            <path d="M 50 12 L 48 16 L 52 16 Z" fill="#4B5563" />
+            <path d="M 50 12 L 48 16 L 52 16 Z" fill="#8C8C70" />
           </motion.g>
 
           {/* Hour Hand */}
           <motion.g
             animate={{ rotate: hourRotation }}
-            transition={{ type: 'spring' }}
+            transition={{ type: 'spring', stiffness: 50 }}
             style={{
-              originX: 0.5,       // Equates to 50%
-              originY: 1,         // Equates to 100%
+              originX: 0.5,
+              originY: 1,
               transformBox: 'fill-box'
             }}
           >
             <line
-              x1="50" y1="50" x2="50" y2="25"
-              stroke="#DC2626" strokeWidth="5" strokeLinecap="round"
+              x1="50" y1="50" x2="50" y2="22"
+              stroke="#FF6B6B" strokeWidth="4" strokeLinecap="round"
             />
-            <path d="M 50 25 L 46 32 L 54 32 Z" fill="#DC2626" />
+            <path d="M 50 22 L 47 28 L 53 28 Z" fill="#FF6B6B" />
           </motion.g>
 
           {/* Center Pin */}
-          <circle cx="50" cy="50" r="3.5" fill="#1F2937" stroke="white" strokeWidth="1" />
+          <circle cx="50" cy="50" r="3.5" fill="#5A5A40" stroke="white" strokeWidth="1" />
         </svg>
       </div>
 
@@ -157,7 +180,7 @@ export default function ClockTelling({ level, onAnswer }: ActivityProps) {
             onClick={() => handleSelect(option)}
             className={`h-24 bg-white rounded-[32px] border-4 border-kid-peach shadow-lg flex items-center justify-center text-3xl font-black text-kid-dark transition-all ${
               isAnswered && option.hours === targetTime.hours && option.minutes === targetTime.minutes
-                ? 'bg-kid-green-bg border-kid-green-mint scale-105'
+                ? 'bg-kid-green-bg border-kid-green-mint scale-105 shadow-md'
                 : 'hover:border-kid-peach-dark'
             }`}
           >

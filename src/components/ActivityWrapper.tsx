@@ -3,22 +3,38 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Star, Trophy, Sparkles } from 'lucide-react';
 import { playPop, playChime, playBuzz, speak } from '../utils/audio';
 
+export type GameMode = 'quiz' | 'study';
+
 export interface ActivityProps {
   level: number;
   onAnswer: (isCorrect: boolean) => void;
+  mode?: GameMode;
 }
 
 interface ActivityWrapperProps {
   title: string;
   description: string;
+  mode?: GameMode;
+  studyContent?: React.ReactNode;
   children: (props: ActivityProps) => React.ReactNode;
 }
 
-export default function ActivityWrapper({ title, description, children }: ActivityWrapperProps) {
+export default function ActivityWrapper({
+  title,
+  description,
+  mode = 'quiz',
+  studyContent,
+  children
+}: ActivityWrapperProps) {
   const [level, setLevel] = useState(1);
   const [successStreak, setSuccessStreak] = useState(0);
   const [mistakeCount, setMistakeCount] = useState(0);
   const [showLevelUp, setShowLevelUp] = useState(false);
+  const [currentMode, setCurrentMode] = useState<GameMode>(mode);
+
+  useEffect(() => {
+    setCurrentMode(mode);
+  }, [mode]);
 
   const handleAnswer = (isCorrect: boolean) => {
     if (isCorrect) {
@@ -75,6 +91,21 @@ export default function ActivityWrapper({ title, description, children }: Activi
 
   return (
     <div className="w-full flex flex-col items-center">
+      {/* Study Mode Content */}
+      <AnimatePresence mode="wait">
+        {currentMode === 'study' && studyContent && (
+          <motion.div
+            key="study"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="w-full max-w-2xl bg-kid-blue bg-opacity-10 border-3 border-kid-blue rounded-3xl p-6 mb-6 text-kid-dark"
+          >
+            {studyContent}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Progress Bar Container */}
       <div className="w-full max-w-2xl bg-white p-4 rounded-3xl border-4 border-kid-yellow mb-6 shadow-sm relative overflow-hidden">
         {/* Animated background subtle spark */}
@@ -148,7 +179,7 @@ export default function ActivityWrapper({ title, description, children }: Activi
           )}
         </AnimatePresence>
 
-        {children({ level, onAnswer: handleAnswer })}
+        {children({ level, onAnswer: handleAnswer, mode: currentMode })}
       </div>
     </div>
   );
